@@ -3,6 +3,7 @@ enum Category: String, CaseIterable {
     case sofas = "Sofas"
     case mirrors = "Mirrors"
     case beds = "Beds"
+    case decor = "Decor"
 
     var icon: String {
         switch self {
@@ -10,6 +11,7 @@ enum Category: String, CaseIterable {
         case .sofas: return "sofa"
         case .mirrors: return "rectangle"
         case .beds: return "bed.double"
+        case .decor: return "star"
         }
     }
 }

@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "chair-isolated-on-a-transparent-background-png.png",
+      "filename" : "chair.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "chair.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "chair.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

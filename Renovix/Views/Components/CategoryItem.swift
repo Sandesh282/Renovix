@@ -1,18 +1,25 @@
-//
-//  CategoryItem.swift
-//  Renovix
-//
-//  Created by Sandesh Raj on 24/06/25.
-//
-
 import SwiftUI
 
 struct CategoryItem: View {
+    var icon: String
+    var title: String
+    var selected: Bool = false
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.system(size: 16))
+                .foregroundColor(selected ? .white : .black)
+                .padding()
+                .background(selected ? Color.blue : Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .shadow(color: .black.opacity(0.05), radius: 4)
+            Text(title)
+                .font(.caption)
+                .foregroundColor(.primary)
+        }
     }
 }
-
 #Preview {
-    CategoryItem()
+    CategoryItem(icon: "folder.fill", title: "Documents")
 }

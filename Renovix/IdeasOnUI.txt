@@ -1,0 +1,12 @@
+1. Improve on the UI of Cards... add some funky choosing animation like when the user slides the cards should resize dynamically and the 3d model should smoothly pop out.
+
+2. There has to be cool splash screen giving intro of the app
+
+3. Instead of having tabs like we had earlier use carousel in place of cards which will be more user intuitive.
+4. also add a filter icon next to search bar.
+5. Use better/custom icons
+6. 
+
+Links -
+    https://dribbble.com/shots/17351310-Homely-AR-Furniture-App-Onboarding-Experience
+    

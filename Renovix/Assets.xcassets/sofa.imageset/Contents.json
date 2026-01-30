@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "sofa.jpg",
+      "filename" : "sofa.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "sofa.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "sofa.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

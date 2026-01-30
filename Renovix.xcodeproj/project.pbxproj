@@ -29,9 +29,22 @@
 		C70AC69F2E09E97600AA7EC2 /* RenovixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RenovixUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C78731732E09F1DF000A74FA /* Exceptions for "Renovix" folder in "Renovix" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C70AC6822E09E97400AA7EC2 /* Renovix */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C70AC6852E09E97400AA7EC2 /* Renovix */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C78731732E09F1DF000A74FA /* Exceptions for "Renovix" folder in "Renovix" target */,
+			);
 			path = Renovix;
 			sourceTree = "<group>";
 		};
@@ -400,6 +413,8 @@
 				DEVELOPMENT_TEAM = 5SG2NQS75A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Renovix/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to preview furniture in your room.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +443,8 @@
 				DEVELOPMENT_TEAM = 5SG2NQS75A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Renovix/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to preview furniture in your room.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

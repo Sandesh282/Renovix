@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "bed.jpg",
+      "filename" : "bed.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "bed.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "bed.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
