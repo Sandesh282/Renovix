@@ -11,7 +11,27 @@ struct HomeView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            VStack(spacing: 0) {
+            // MARK: - Tab Content
+            switch selectedTab {
+            case .home:
+                homeContent
+            case .cart:
+                CartView()
+            case .profile:
+                ProfileView()
+            }
+            
+            CustomTabBar(selectedTab: $selectedTab)
+        }
+        .edgesIgnoringSafeArea(.bottom)
+        .sheet(isPresented: $showAllProducts) {
+            AllProductsView(products: viewModel.products)
+        }
+    }
+    
+    // MARK: - Home Tab Content
+    private var homeContent: some View {
+        VStack(spacing: 0) {
                 
                 ZStack {
                     HStack {
@@ -160,14 +180,6 @@ struct HomeView: View {
             }
             .background(Color(.systemBackground).ignoresSafeArea())
             .navigationBarBackButtonHidden(true) 
-
-            
-            CustomTabBar(selectedTab: $selectedTab)
-        }
-        .edgesIgnoringSafeArea(.bottom)
-        .sheet(isPresented: $showAllProducts) {
-            AllProductsView(products: viewModel.products)
-        }
     }
 }
 
