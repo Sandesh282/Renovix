@@ -25,28 +25,36 @@ Renovix is designed to mirror **real production ARKit workflows**, with attentio
 
 * **End‑to‑end AR interaction pipeline**
 
-  * AR session setup
-  * World tracking and plane detection
-  * Raycasting‑based object placement
-  * Scene anchoring and lifecycle management
+  * AR session setup with coaching overlay
+  * Horizontal/vertical plane detection with visualization
+  * Raycasting‑based object placement with floor snapping
+  * Ghost preview with real-time gesture manipulation
 
-* **Spatial correctness**
+* **Interactive AR Controls**
 
-  * World mapping and surface alignment
-  * Occlusion‑aware placement paths
-  * Lighting estimation for visual consistency
+  * **Tap** to place ghost preview
+  * **Pan** to slide object on detected surfaces
+  * **Pinch** to scale objects
+  * **Rotate** to adjust orientation
+  * **Two-finger vertical pan** to adjust height
+
+* **Persistence & Data**
+
+  * CoreData-backed storage for placed items
+  * Repository pattern with dependency injection
+  * Position, rotation, and scale persistence across sessions
 
 * **Rendering performance**
 
-  * Efficient RealityKit entity management
-  * Safe update paths for multiple simultaneous assets
-  * Interactive frame rates under dynamic scene updates
+  * Centralized `ModelLoader` service with caching
+  * SceneKit-based AR rendering with ARSCNView
+  * Efficient ghost node management during placement
 
-* **Extensibility by design**
+* **Testability**
 
-  * Modular AR view containers
-  * Isolated gesture and interaction handling
-  * Clear separation between UI, rendering, and data layers
+  * Unit tests for ViewModels (`ARViewModelTests`, `ProductViewModelTests`)
+  * Mock repositories for isolated testing
+  * Swift Testing framework integration
 
 ---
 
@@ -63,8 +71,8 @@ Renovix follows a layered architecture intended to scale beyond a prototype:
 * **AR & Rendering Layer**
 
   * ARKit for spatial tracking and environment understanding
-  * RealityKit for high‑level rendering, lighting, and interaction
-  * SceneKit compatibility where lower‑level control is beneficial
+  * SceneKit (ARSCNView) for 3D rendering and object placement
+  * `ModelLoader` service for centralized USDZ asset loading
 
 * **Interaction Layer**
 
@@ -74,9 +82,10 @@ Renovix follows a layered architecture intended to scale beyond a prototype:
 
 * **Data & Domain Layer**
 
-  * Repository‑driven access patterns
-  * Dependency‑injected components
-  * Mock‑friendly data sources for testability
+  * CoreData for persistence (`PlacedItem`)
+  * Repository pattern (`ARItemRepository`, `ProductRepository`)
+  * `AppContainer` for dependency injection
+  * Mock-friendly data sources for testability
 
 This structure ensures that UI changes, data sources, and AR behavior can evolve independently.
 
@@ -133,12 +142,13 @@ The project is intentionally positioned to reflect how AR features are **enginee
 
 ## Tech Stack
 
-* **Language**: Swift
+* **Language**: Swift 5.9+
 * **UI**: SwiftUI
-* **AR & Rendering**: ARKit, RealityKit, SceneKit
-* **Animation**: Core Animation
+* **AR & Rendering**: ARKit, SceneKit
+* **Persistence**: CoreData
 * **Concurrency**: Swift Concurrency (async/await)
-* **Architecture**: Repository pattern, dependency injection
+* **Testing**: Swift Testing framework
+* **Architecture**: MVVM, Repository pattern, Dependency Injection
 
 ---
 
