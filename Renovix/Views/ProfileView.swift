@@ -102,7 +102,6 @@ struct ProfileView: View {
     }
 }
 
-// MARK: - Stat Item
 struct StatItem: View {
     let value: String
     let label: String
@@ -119,7 +118,6 @@ struct StatItem: View {
     }
 }
 
-// MARK: - Settings Section
 struct SettingsSection<Content: View>: View {
     let title: String
     @ViewBuilder let content: Content
@@ -140,7 +138,6 @@ struct SettingsSection<Content: View>: View {
     }
 }
 
-// MARK: - Settings Row
 struct SettingsRow: View {
     let icon: String
     let title: String
@@ -178,7 +175,6 @@ struct SettingsRow: View {
     }
 }
 
-// MARK: - Settings Toggle Row
 struct SettingsToggleRow: View {
     let icon: String
     let title: String

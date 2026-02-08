@@ -1,5 +1,13 @@
 import SwiftUI
 
+// MARK: - Preference Key for scroll tracking
+struct ScrollOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
 struct HomeView: View {
     @StateObject var viewModel = ProductViewModel()
     @State private var selectedTab: Tab = .home
@@ -73,16 +81,11 @@ struct HomeView: View {
                                 .multilineTextAlignment(.center)
                                 .lineLimit(2)
                                 .background(
-                                    GeometryReader { geo -> Color in
-                                        let minY = geo.frame(in: .named("scroll")).minY
-                                        let height = geo.size.height
-                                        DispatchQueue.main.async {
-                                            let shouldShow = minY < -height / 2
-                                            if showNavbarTitle != shouldShow {
-                                                showNavbarTitle = shouldShow
-                                            }
-                                        }
-                                        return Color.clear
+                                    GeometryReader { geo in
+                                        Color.clear.preference(
+                                            key: ScrollOffsetPreferenceKey.self,
+                                            value: geo.frame(in: .named("scroll")).minY
+                                        )
                                     }
                                 )
                             Spacer()
@@ -176,7 +179,10 @@ struct HomeView: View {
                     }
                     .padding(.bottom, 20)
                 }
-                .coordinateSpace(name: "scroll") 
+                .coordinateSpace(name: "scroll")
+                .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                    showNavbarTitle = value < -25
+                } 
             }
             .background(Color(.systemBackground).ignoresSafeArea())
             .navigationBarBackButtonHidden(true) 

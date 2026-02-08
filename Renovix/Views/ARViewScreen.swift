@@ -9,6 +9,11 @@ struct ARViewScreen: View {
     @State private var selectedModelName: String
     var modelName: String
 
+    // Ghost transform state
+    @State private var currentGhostPosition: SIMD3<Float> = .zero
+    @State private var currentGhostScale: Float = 0.01
+    @State private var currentGhostRotation: Float = 0
+
     @StateObject private var arViewModel = ARViewModel()
 
     init(modelName: String) {
@@ -21,7 +26,13 @@ struct ARViewScreen: View {
             ARViewContainer(modelName: selectedModelName,
                             isPlacingObject: $isPlacingObject,
                             pendingPlacementTransform: $pendingPlacementTransform,
-                            placedItems: arViewModel.placedItems)
+                            currentGhostPosition: $currentGhostPosition,
+                            currentGhostScale: $currentGhostScale,
+                            currentGhostRotation: $currentGhostRotation,
+                            placedItems: arViewModel.placedItems,
+                            onSessionStateChange: { state in
+                                arViewModel.updateSessionState(state)
+                            })
                 .edgesIgnoringSafeArea(.all)
 
             VStack {
@@ -62,6 +73,10 @@ struct ARViewScreen: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 20) 
+                
+                if !isPlacingObject {
+                    scanStatusIndicator
+                }
 
                 Spacer()
                 
@@ -127,19 +142,16 @@ struct ARViewScreen: View {
                         }
                         
                         Button(action: {
+                            // Use actual ghost position/scale/rotation from gesture adjustments
+                            arViewModel.saveItem(
+                                productId: UUID().uuidString, 
+                                modelName: selectedModelName,
+                                position: currentGhostPosition,
+                                rotationY: currentGhostRotation,
+                                scale: currentGhostScale / 0.01  // Convert back to relative scale (base is 0.01)
+                            )
+                            
                             if let transform = pendingPlacementTransform {
-                                let translation = transform.columns.3
-                                let position = SIMD3<Float>(translation.x, translation.y, translation.z)
-                                let rotationY = atan2(transform.columns.2.x, transform.columns.2.z)
-                                
-                                arViewModel.saveItem(
-                                    productId: UUID().uuidString, 
-                                    modelName: selectedModelName,
-                                    position: position,
-                                    rotationY: rotationY,
-                                    scale: 1.0 
-                                )
-                                
                                 NotificationCenter.default.post(name: .addNewObject, object: transform)
                             }
                             isPlacingObject = false
@@ -207,6 +219,83 @@ struct ARViewScreen: View {
             set: { _ in arViewModel.errorMessage = nil }
         )) { alert in
             Alert(title: Text("Error"), message: Text(alert.message), dismissButton: .default(Text("OK")))
+        }
+    }
+    
+    // MARK: - Scan Status Indicator
+    
+    private var scanStatusIndicator: some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 8) {
+                
+                Image(systemName: scanStatusIcon)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(scanStatusColor)
+                
+                Text(scanStatusText)
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.white)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(
+                Capsule()
+                    .fill(.ultraThinMaterial)
+                    .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+            )
+            
+            if arViewModel.sessionState == .planeSearching {
+                Text("Move your phone slowly to scan the floor")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.8))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 6)
+                    .background(Capsule().fill(.black.opacity(0.3)))
+            }
+        }
+        .padding(.top, 8)
+    }
+    
+    private var scanStatusIcon: String {
+        switch arViewModel.sessionState {
+        case .initializing:
+            return "hourglass"
+        case .planeSearching:
+            return "viewfinder"
+        case .planeDetected:
+            return "checkmark.circle.fill"
+        case .ready:
+            return "checkmark.circle.fill"
+        case .failed:
+            return "exclamationmark.triangle.fill"
+        }
+    }
+    
+    private var scanStatusText: String {
+        switch arViewModel.sessionState {
+        case .initializing:
+            return "Initializing AR..."
+        case .planeSearching:
+            return "Scanning for surfaces..."
+        case .planeDetected:
+            return "Surface detected! Tap to place"
+        case .ready:
+            return "Ready to place objects"
+        case .failed(let message):
+            return "Error: \(message)"
+        }
+    }
+    
+    private var scanStatusColor: Color {
+        switch arViewModel.sessionState {
+        case .initializing:
+            return .gray
+        case .planeSearching:
+            return .yellow
+        case .planeDetected, .ready:
+            return .green
+        case .failed:
+            return .red
         }
     }
 }
